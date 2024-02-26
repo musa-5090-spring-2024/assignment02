@@ -28,7 +28,7 @@ parcel address, bus stop name, and distance apart in meters. Order by distance
 select 
     water.address as parcel_address,
     stops.stop_name as stop_name,
-    round(distance::numeric, 2) as distance
+    round(distance::numeric, 2)::double precision as distance
 from phl.pwd_parcels as water
 cross join lateral (
     select stops.stop_name, stops.geog <-> water.geog as distance

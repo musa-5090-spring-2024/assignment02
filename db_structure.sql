@@ -41,3 +41,33 @@ set geog = st_makepoint(stop_lon, stop_lat)::geography;
 create index if not exists septa_bus_stops__geog__idx
 on septa.bus_stops using gist
 (geog);
+
+-- Add a column to the septa.bus_shapes table to store the geometry of each shape point.
+alter table septa.bus_shapes
+add column if not exists geog geography;
+
+update septa.bus_shapes
+set geog = st_makepoint(shape_pt_lon, shape_pt_lat)::geography;
+
+-- Create an index on the geog column.
+create index if not exists septa_bus_shapes__geog__idx
+on septa.bus_shapes using gist
+(geog);
+
+-- Create new table with shape lines.
+CREATE TABLE septa.shape_geoms (
+  shape_id text NOT NULL,
+  shape_geom geography('LINESTRING', 4326),
+  CONSTRAINT shape_geom_pkey PRIMARY KEY (shape_id)
+);
+
+INSERT INTO septa.shape_geoms
+SELECT shape_id, ST_MakeLine(array_agg(
+  ST_SetSRID(ST_MakePoint(shape_pt_lon, shape_pt_lat),4326) ORDER BY shape_pt_sequence)) as shape_geom
+FROM septa.bus_shapes
+GROUP BY shape_id;
+
+-- Create an index on shape_geoms.
+create index if not exists septa_shape_geoms__geom__idx
+on septa.shape_geoms using gist
+(shape_geom);
