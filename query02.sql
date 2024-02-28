@@ -13,6 +13,8 @@ bg_w_pop AS (
         SUBSTRING(pop.geoid, 10) AS geoid
     FROM census.population_2020 AS pop
     INNER JOIN census.blockgroups_2020 AS bg ON SUBSTRING(pop.geoid, 10) = bg.geoid
+    WHERE SUBSTRING(pop.geoid, 10) LIKE '42101%'
+
 ),
 
 stop_pop AS (
