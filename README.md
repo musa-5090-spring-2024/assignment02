@@ -149,6 +149,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
 1.  Which **eight** bus stop have the largest population within 800 meters? As a rough estimation, consider any block group that intersects the buffer as being part of the 800 meter buffer.
 
+    **Answer:Lombard St & 18th St, Rittenhouse Sq & 18th St, Snyder Av & 9th St, Lombard St & 19th St, 19th St & Lombard St, 16th St & Locust St,Locust St & 16th St, South St & 19th St**
+
 2.  Which **eight** bus stops have the smallest population above 500 people _inside of Philadelphia_ within 800 meters of the stop (Philadelphia county block groups have a geoid prefix of `42101` -- that's `42` for the state of PA, and `101` for Philadelphia county)?
 
     **The queries to #1 & #2 should generate results with a single row, with the following structure:**
@@ -160,6 +162,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
         geog geography -- The geography of the bus stop
     )
     ```
+
+    **Answer: Delaware Av & Venango St, Delaware Av & Tioga St, Delaware Av & Castor Av, Northwestern Av & Stenton Av, Stenton Av & Northwestern Av, Bethlehem Pk & Chesney Ln, Bethlehem Pk & Chesney Ln, Delaware Av & Wheatsheaf Ln**
 
 3.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters, rounded to two decimals. Order by distance (largest on top).
 
@@ -175,6 +179,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
         distance numeric  -- The distance apart in meters, rounded to two decimals
     )
     ```
+     **Answer: Delaware Av & Venango St, Delaware Av & Tioga St, Delaware Av & Castor Av, Northwestern Av & Stenton Av, Stenton Av & Northwestern Av, Bethlehem Pk & Chesney Ln, Bethlehem Pk & Chesney Ln, Delaware Av & Wheatsheaf Ln**
 
 4.  Using the `bus_shapes`, `bus_routes`, and `bus_trips` tables from GTFS bus feed, find the **two** routes with the longest trips.
 
@@ -198,15 +203,20 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
+    **Answer:Bucks County Community College	and Oxford Valley Mall**
+
 5.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use Azavea's neighborhood dataset from OpenDataPhilly along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
 
     _NOTE: There is no automated test for this question, as there's no one right answer. With urban data analysis, this is frequently the case._
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description: To arrive at the accessibility metric, the number of bus stops within that neighborhhod that are considered wheel chair accessible and inaccessible are summarized respectively. Secondly, the total population of each neighborhood is approximated by aggregated population from the block group level to the neighborhood. Thirdly, the accessible bus stops and total population ratio is calculated for each neighborhood (ratio1). The same is repeated to calculate the ratio between the total number of bus stops and total population (ratio2). Finally, the accssibility metric is calculated by dividing ratio1 and ratio2. The higher the score, the more accessible it is.**
+
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
+
+    **Answer:**The top five neighborhoods are Navy Yard, Northeast Airport, East Oak Lane, Chestnut Hill, and Eastwick
 
 7.  What are the _bottom five_ neighborhoods according to your accessibility metric?
 
@@ -219,6 +229,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
       num_bus_stops_inaccessible integer
     )
     ```
+    **Answer:**The bottom five neighborhoods are Crestmont Farms, West Torresdale, Pennypack Park, Chinatown, and Bartram Village
 
 8.  With a query, find out how many census block groups Penn's main campus fully contains. Discuss which dataset you chose for defining Penn's campus.
 
@@ -229,7 +240,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-    **Discussion:**
+    **Discussion: Penn's campus is loosely defined using the parcles dataset. Parcels that are part of Penn's campus are usually labeled to be owned by Trustees of the University of Penn in the `owner` column in this dataset. Upon carefully examining the dataset, I found that owners' name are not written in a consistent way the dataset, and therefore, I listed all possible aliases that include, TRUSTEES OF THE U OF PENN, TRUSTEES OF U OF P, UNIVERSITY OF PENN TRS, and many more. These parcles were selected and compared to the block groups. Only 3 block groups are "fully" contained within these parcels. Many others overlap or touches these parcels in some way.**
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
@@ -239,6 +250,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
         geo_id text
     )
     ```
+
+    **Answer:** 421010369022
 
 10. You're tasked with giving more contextual information to rail stops to fill the `stop_desc` field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.), and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop. Feel free to supplement with other datasets (must provide link to data used so it's reproducible), and other methods of describing the relationships. SQL's `CASE` statements may be helpful for some operations.
 
@@ -256,3 +269,5 @@ There are several datasets that are prescribed for you to use in this part. Belo
    As an example, your `stop_desc` for a station stop may be something like "37 meters NE of 1234 Market St" (that's only an example, feel free to be creative, silly, descriptive, etc.)
 
    >**Tip when experimenting:** Use subqueries to limit your query to just a few rows to keep query times faster. Once your query is giving you answers you want, scale it up. E.g., instead of `FROM tablename`, use `FROM (SELECT * FROM tablename limit 10) as t`.
+
+    **Discussion: For this question, I counted the number of bus stops and the number of bus stops accessible to wheelchairs around 500 meters of each rail stops and filled that information into the empty description column.**
