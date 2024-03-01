@@ -206,6 +206,12 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     **Description:**
 
+    I calculated my accessibility metric by spatially joining the bus stops to the azavea neighboorhoods table to determine what neighboorhood each bus stop is located in. I then counted the number of stops by neighboorhood that are accessible to wheelchairs and not accessible to wheelchairs. After this I calculated my metric using the formula:
+
+    * metric = num_bus_stops_accessible / (num_bus_stops_accessible + num_bus_stops_inaccessible) * num_bus_stops_accessible
+
+    This formula calculates the percentage of bus stops in the neighboorhood that are accessible. I then multiply the percentage by the number of accessible bus stops. This was done to ensure that neighboorhoods with a larger number of bus stops get a higher value on the metric.
+
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
 7.  What are the _bottom five_ neighborhoods according to your accessibility metric?
@@ -229,7 +235,9 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-    **Discussion:**
+    **Discussion:** 
+    
+    I used the PWD parcles dataset to define Penn's campus. To do this, I looked at the unique list of property owners in the city and identified thoose that are likelihood associated with Penn. I then wrote a query to just select properties owned by Penn. Penn owns some properties that are located outside of University and would not be considered parts of "Penn's campus". To account for this, I did an intersect with the university city neighboorhood boundary to identify just parcels owned by PENN located in University City. I then created an st_convexhull geometry around all the properties owned by PENN in University city.
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
