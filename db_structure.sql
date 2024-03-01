@@ -71,3 +71,30 @@ GROUP BY shape_id;
 create index if not exists septa_shape_geoms__geom__idx
 on septa.shape_geoms using gist
 (shape_geom);
+
+--Create Wawa location table
+create schema if not exists wawa;
+
+CREATE TABLE wawa.locations (
+  lon DOUBLE PRECISION,
+  lat DOUBLE PRECISION,
+  loc_name TEXT
+);
+
+COPY wawa.locations
+FROM 'C:\Users\Public\Documents\musa\a2data\wawa.csv'
+WITH (FORMAT csv, HEADER true);
+
+select * from wawa.locations
+
+--Ass geography to Wawa table
+alter table wawa.locations
+add column if not exists geog geography;
+
+update wawa.locations
+set geog = st_makepoint(lon, lat)::geography;
+
+-- Create an the Wawa geog column
+create index if not exists wawa_locations__geog__idx
+on wawa.locations using gist
+(geog);

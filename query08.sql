@@ -10,10 +10,11 @@ Discuss which dataset you chose for defining Penn's campus.
     ```
 
     **Discussion:**
-    buffer
-    envelope
-    convex hull
-    union
+    I chose the water department parcels dataset to define Penn's campus. To isolate Penn
+    properties, I used a where statement in my query. Since the ownership records are inconsistent,
+    I use several combinations of names to catch all of the Penn-owned parcels. I then buffered these
+    parcels by 50 meters to account for small gaps, especially streets, unioned them together, and selected
+    the block groups that fall entirely inside the buffered polygon.
 */
 
 with penn as (
