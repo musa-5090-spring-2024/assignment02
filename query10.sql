@@ -49,12 +49,12 @@ census_pop as (
 select
     rail_tract.stop_id,
     rail_tract.stop_name,
+    rail_tract.stop_lon,
+    rail_tract.stop_lat,
     'The ' || rail_tract.stop_name || ' commuter rail stop is found in Zone ' || rail_tract.zone_id
     || '. The stop is located in' || rail_tract.tract || ' in' || rail_tract.county || ',' || rail_tract.state
     || '. Approximately ' || census_pop.km_pop || ' people live within 1 kilometer of the stop and the stop is located '
     || rail_tract.dist_art || ' kilometers from the Philadelphia art museum. SQL is fun :)' as stop_desc,
-    rail_tract.stop_lon,
-    rail_tract.stop_lat
 from rail_tract
 left join census_pop
     on (rail_tract.stop_id = census_pop.stop_id)
