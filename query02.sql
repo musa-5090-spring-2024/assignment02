@@ -4,9 +4,7 @@
   of the 800 meter buffer.
 */
 
-with
-
-septa_bus_stop_blockgroups as (
+with septa_bus_stop_blockgroups as (
     select
         stops.stop_id,
         '1500000US' || bg.geoid as geoid
@@ -21,14 +19,16 @@ septa_bus_stop_surrounding_population as (
         sum(pop.total) as estimated_pop_800m
     from septa_bus_stop_blockgroups as stops
     inner join census.population_2020 as pop using (geoid)
+    where substr(pop.geoid, 10, 5) = '42101'
     group by stops.stop_id
 )
 
 select
-    stops.stop_name::text,
-    pop.estimated_pop_800m::integer,
-    stops.geog::geography
+    stops.stop_name,
+    pop.estimated_pop_800m,
+    stops.geog
 from septa_bus_stop_surrounding_population as pop
 inner join septa.bus_stops as stops using (stop_id)
-order by pop.estimated_pop_800m desc
-limit 8
+where pop.estimated_pop_800m > 500
+order by pop.estimated_pop_800m
+limit 8;
