@@ -22,10 +22,40 @@ and other methods of describing the relationships. SQL's `CASE` statements may b
    Once your query is giving you answers you want, scale it up. E.g., instead of `FROM tablename`, 
    use `FROM (SELECT * FROM tablename limit 10) as t`.
 
-   https://www.arcgis.com/sharing/rest/content/items/3c7936f5e9744882a76e02867f25e9e7/data
-   Note: I believe these locations are a little out of date.
+    I found this csv of Wawa locations from user kamine93_rowanuniversity on ArcGIS Online, dated December 18, 2023.
+    https://www.arcgis.com/home/item.html?id=3c7936f5e9744882a76e02867f25e9e7
+    Direct download link: https://www.arcgis.com/sharing/rest/content/items/3c7936f5e9744882a76e02867f25e9e7/data
+    Note: I believe these locations are a little out of date (based on my personal knowledge
+    of Wawa locations in Center City.)
 */
 
 select
-    *
-from septa.rail_stops
+    rail.stop_id::integer,
+    rail.stop_name,
+    concat(round(st_distance(wawa.geog, rail.geog))::text, 
+        ' meters ',
+        CASE
+            WHEN az >= 0 AND az < 22.5 THEN 'N'
+            WHEN az >= 22.5 AND az < 67.5 THEN 'NE'
+            WHEN az >= 67.5 AND az < 112.5 THEN 'E'
+            WHEN az >= 112.5 AND az < 157.5 THEN 'SE'
+            WHEN az >= 157.5 AND az < 202.5 THEN 'S'
+            WHEN az >= 202.5 AND az < 247.5 THEN 'SW'
+            WHEN az >= 247.5 AND az < 292.5 THEN 'W'
+            WHEN az >= 292.5 AND az < 337.5 THEN 'NW'
+            ELSE 'N'
+        END,
+        ' from the nearest Wawa.') as stop_desc,
+    rail.stop_lon,
+    rail.stop_lat
+from septa.rail_stops as rail
+cross join lateral (
+    select 
+        wawa.geog, 
+        wawa.geog <-> rail.geog as distance, 
+        degrees(st_azimuth(wawa.geog, rail.geog)) as az
+    from wawa.locations as wawa
+    order by distance
+    limit 1
+) wawa
+order by distance
