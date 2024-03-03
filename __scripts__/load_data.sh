@@ -1,17 +1,18 @@
 #!/bin/env bash
 
-set -e
-set -x
+#set -e
+#set -x
 
-POSTGRES_HOST=${POSTGRES_HOST:-localhost}
-POSTGRES_PORT=${POSTGRES_PORT:-5432}
-POSTGRES_NAME=${POSTGRES_NAME:-assignment02}
-POSTGRES_USER=${POSTGRES_USER:-postgres}
-POSTGRES_PASS=${POSTGRES_PASS:-postgres}
-PYTHON_COMMAND=${PYTHON_COMMAND:-python3}
+export POSTGRES_HOST=${POSTGRES_HOST:-localhost}
+export POSTGRES_PORT=${POSTGRES_PORT:-5432}
+export POSTGRES_NAME=${POSTGRES_NAME:-assignment02}
+export POSTGRES_USER=${POSTGRES_USER:-postgres}
+export POSTGRES_PASS=${POSTGRES_PASS:-postgres}
+export PYTHON_COMMAND=${PYTHON_COMMAND:-python3}
 
-SCRIPTDIR=$(readlink -f $(dirname $0))
-DATADIR=$(readlink -f $(dirname $0)/../__data__)
+#SCRIPTDIR=$(readlink -f $(dirname $0))
+#DATADIR=$(readlink -f $(dirname $0)/../__data__)
+DATADIR=~"/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/_data_"
 mkdir -p ${DATADIR}
 
 # Download and unzip gtfs data
@@ -20,9 +21,10 @@ unzip -o ${DATADIR}/gtfs_public.zip -d ${DATADIR}/gtfs_public
 unzip -o ${DATADIR}/gtfs_public/google_bus.zip -d ${DATADIR}/google_bus
 unzip -o ${DATADIR}/gtfs_public/google_rail.zip -d ${DATADIR}/google_rail
 
+
 # Create a convenience function for running psql with DB credentials
 function run_psql() {
-  PGPASSWORD=${POSTGRES_PASS} psql \
+  PGPASSWORD=postgres psql \
   -h ${POSTGRES_HOST} \
   -p ${POSTGRES_PORT} \
   -U ${POSTGRES_USER} \
@@ -31,10 +33,10 @@ function run_psql() {
 }
 
 # Create a connection string for ogr2ogr
-POSTGRES_CONNSTRING="host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_NAME} user=${POSTGRES_USER} password=${POSTGRES_PASS}"
+export POSTGRES_CONNSTRING="host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_NAME} user=${POSTGRES_USER} password=${POSTGRES_PASS}"
 
 # Create database
-PGPASSWORD=${POSTGRES_PASS} createdb \
+export PGPASSWORD=${POSTGRES_PASS} createdb \
   -h ${POSTGRES_HOST} \
   -p ${POSTGRES_PORT} \
   -U ${POSTGRES_USER} \
@@ -140,22 +142,3 @@ ogr2ogr \
     -lco GEOM_TYPE=GEOGRAPHY \
     -overwrite \
     "${DATADIR}/census_blockgroups_2020/tl_2020_42_bg.shp"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
