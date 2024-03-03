@@ -3,16 +3,17 @@
 #set -e
 #set -x
 
-export POSTGRES_HOST=${POSTGRES_HOST:-localhost}
+export POSTGRES_HOST=${POSTGRES_HOST:-127.0.0.1}
 export POSTGRES_PORT=${POSTGRES_PORT:-5432}
-export POSTGRES_NAME=${POSTGRES_NAME:-assignment02}
+export POSTGRES_NAME=${POSTGRES_NAME:-postgres}
 export POSTGRES_USER=${POSTGRES_USER:-postgres}
 export POSTGRES_PASS=${POSTGRES_PASS:-postgres}
 export PYTHON_COMMAND=${PYTHON_COMMAND:-python3}
 
 #SCRIPTDIR=$(readlink -f $(dirname $0))
 #DATADIR=$(readlink -f $(dirname $0)/../__data__)
-DATADIR=~"/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/_data_"
+export SCRIPTDIR=~"/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/__scripts__"
+export DATADIR=~"/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/_data_"
 mkdir -p ${DATADIR}
 
 # Download and unzip gtfs data
@@ -33,10 +34,10 @@ function run_psql() {
 }
 
 # Create a connection string for ogr2ogr
-export POSTGRES_CONNSTRING="host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_NAME} user=${POSTGRES_USER} password=${POSTGRES_PASS}"
+POSTGRES_CONNSTRING="host=${POSTGRES_HOST} port=${POSTGRES_PORT} dbname=${POSTGRES_NAME} user=${POSTGRES_USER} password=${POSTGRES_PASS}"
 
 # Create database
-export PGPASSWORD=${POSTGRES_PASS} createdb \
+PGPASSWORD=${POSTGRES_PASS} createdb \
   -h ${POSTGRES_HOST} \
   -p ${POSTGRES_PORT} \
   -U ${POSTGRES_USER} \
@@ -46,7 +47,7 @@ export PGPASSWORD=${POSTGRES_PASS} createdb \
 run_psql -f "${SCRIPTDIR}/create_tables.sql"
 
 # Load trip gtfs data into database
-sed -i 's/\r//g' ${DATADIR}/google_bus/stops.txt
+sed 's/\r//g' ${DATADIR}/google_bus/stops.txt
 run_psql -c "\copy septa.bus_stops FROM '${DATADIR}/google_bus/stops.txt' DELIMITER ',' CSV HEADER;"
 
 # Use sed to replace \r\n with \n in the google_bus/routes.txt file
@@ -117,6 +118,7 @@ ogr2ogr \
 
 # Download philly neighborhood data
 curl -L https://github.com/azavea/geo-data/raw/9e0ac39840803d6218f4503e8a16c7aad0807de4/Neighborhoods_Philadelphia/Neighborhoods_Philadelphia.geojson > ${DATADIR}/Neighborhoods_Philadelphia.geojson
+
 # load neighbourhoods data into database
 ogr2ogr \
     -f "PostgreSQL" \
@@ -131,6 +133,7 @@ ogr2ogr \
 # Download and unzip census data
 curl -L https://www2.census.gov/geo/tiger/TIGER2020/BG/tl_2020_42_bg.zip > ${DATADIR}/census_blockgroups_2020.zip
 unzip -o ${DATADIR}/census_blockgroups_2020.zip -d ${DATADIR}/census_blockgroups_2020
+
 # Load census data into database
 ogr2ogr \
     -f "PostgreSQL" \
