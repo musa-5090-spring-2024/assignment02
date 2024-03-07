@@ -192,7 +192,13 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```sql
     (
         route_short_name text,  -- The short name of the route
-        trip_headsign text,  -- Headsign of the trip
+        trip_headsign text,  -- Headsign of the trip5.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use Azavea's neighborhood dataset from OpenDataPhilly along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
+
+    _NOTE: There is no automated test for this question, as there's no one right answer. With urban data analysis, this is frequently the case._
+
+    Discuss your accessibility metric and how you arrived at it below:
+
+    **Description:**
         shape_geog geography,  -- The shape of the trip
         shape_length double precision  -- Length of the trip in meters
     )

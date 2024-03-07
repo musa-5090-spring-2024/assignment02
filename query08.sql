@@ -1,12 +1,7 @@
 SELECT 
-  a.mapname, 
-  SUM(cp.total) AS total_population
+  COUNT(DISTINCT cbg.geoid) AS num_census_tracts
 FROM 
   azavea.neighborhoods AS a
-JOIN 
-  septa.bus_stops AS bs 
-ON 
-  ST_DWithin(a.geog, bs.geog::geography, 100)
 JOIN 
   census.blockgroups_2020 AS cbg 
 ON 
@@ -15,5 +10,7 @@ JOIN
   census.population_2020 AS cp 
 ON 
   '1500000US' || cbg.geoid = cp.geoid
-GROUP BY 
-  a.mapname;
+WHERE 
+  a.mapname = 'University City'
+AND 
+  cp.total < 100;

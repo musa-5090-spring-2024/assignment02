@@ -16,4 +16,7 @@ JOIN
 ON 
   '1500000US' || cbg.geoid = cp.geoid
 GROUP BY 
-  a.mapname;
+  a.mapname
+ORDER BY 
+  total_population DESC
+LIMIT 5;
