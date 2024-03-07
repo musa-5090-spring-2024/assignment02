@@ -192,7 +192,13 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```sql
     (
         route_short_name text,  -- The short name of the route
-        trip_headsign text,  -- Headsign of the trip
+        trip_headsign text,  -- Headsign of the trip5.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use Azavea's neighborhood dataset from OpenDataPhilly along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
+
+    _NOTE: There is no automated test for this question, as there's no one right answer. With urban data analysis, this is frequently the case._
+
+    Discuss your accessibility metric and how you arrived at it below:
+
+    **Description:**
         shape_geog geography,  -- The shape of the trip
         shape_length numeric  -- Length of the trip in meters, rounded to the nearest whole number
     )
@@ -205,6 +211,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
     Discuss your accessibility metric and how you arrived at it below:
 
     **Description:**
+
+    I used the wheelchair_boarding column in the bus_stops table to identify only stops that are definitely wheelchair accessible. Then, I I filtered for block groups that intersected with a 100 meter buffer of those stops. I tallied the total population of those block groups per neighborhood (removing duplicates) and then z-scored the total population to rank the neighborhoods from below average to above average.
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
@@ -230,6 +238,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```
 
     **Discussion:**
+    I combined the block groups, population, and neighborhoods datasets to do this. I filtered for block groups with a population of under 100 (based on surveying the data) within the bounds of the University City neighborhood. This leaves only non-residential areas within the bounds of UCity, so mostly likely only parts of Penn's campus (plus maybe some of Drexel).
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
