@@ -57,5 +57,4 @@ cross join lateral (
     from wawa.locations as wawa
     order by distance
     limit 1
-) wawa
-order by distance
+) wawa;
