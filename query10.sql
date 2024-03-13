@@ -1,7 +1,7 @@
-/*10. You're tasked with giving more contextual information to rail stops to fill the `stop_desc` 
-field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.), 
-and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop. 
-Feel free to supplement with other datasets (must provide link to data used so it's reproducible), 
+/*10. You're tasked with giving more contextual information to rail stops to fill the `stop_desc`
+field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.),
+and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop.
+Feel free to supplement with other datasets (must provide link to data used so it's reproducible),
 and other methods of describing the relationships. SQL's `CASE` statements may be helpful for some operations.
 
     **Structure:**
@@ -15,11 +15,11 @@ and other methods of describing the relationships. SQL's `CASE` statements may b
     )
     ```
 
-   As an example, your `stop_desc` for a station stop may be something like "37 meters NE of 1234 Market St" 
+   As an example, your `stop_desc` for a station stop may be something like "37 meters NE of 1234 Market St"
    (that's only an example, feel free to be creative, silly, descriptive, etc.)
 
-   >**Tip when experimenting:** Use subqueries to limit your query to just a few rows to keep query times faster. 
-   Once your query is giving you answers you want, scale it up. E.g., instead of `FROM tablename`, 
+   >**Tip when experimenting:** Use subqueries to limit your query to just a few rows to keep query times faster.
+   Once your query is giving you answers you want, scale it up. E.g., instead of `FROM tablename`,
    use `FROM (SELECT * FROM tablename limit 10) as t`.
 
     I found this csv of Wawa locations from user kamine93_rowanuniversity on ArcGIS Online, dated December 18, 2023.
@@ -32,27 +32,30 @@ and other methods of describing the relationships. SQL's `CASE` statements may b
 select
     rail.stop_id::integer,
     rail.stop_name,
-    concat(round(st_distance(wawa.geog, rail.geog))::text, 
-        ' meters ',
-        CASE
-            WHEN az >= 0 AND az < 22.5 THEN 'N'
-            WHEN az >= 22.5 AND az < 67.5 THEN 'NE'
-            WHEN az >= 67.5 AND az < 112.5 THEN 'E'
-            WHEN az >= 112.5 AND az < 157.5 THEN 'SE'
-            WHEN az >= 157.5 AND az < 202.5 THEN 'S'
-            WHEN az >= 202.5 AND az < 247.5 THEN 'SW'
-            WHEN az >= 247.5 AND az < 292.5 THEN 'W'
-            WHEN az >= 292.5 AND az < 337.5 THEN 'NW'
-            ELSE 'N'
-        END,
-        ' from the nearest Wawa.') as stop_desc,
     rail.stop_lon,
-    rail.stop_lat
+    rail.stop_lat,
+    concat(
+        round(st_distance(wawa.geog, rail.geog))::text,
+        ' meters ',
+        case
+            when wawa.az >= 0 and wawa.az < 22.5 then 'N'
+            when wawa.az >= 22.5 and wawa.az < 67.5 then 'NE'
+            when wawa.az >= 67.5 and wawa.az < 112.5 then 'E'
+            when wawa.az >= 112.5 and wawa.az < 157.5 then 'SE'
+            when wawa.az >= 157.5 and wawa.az < 202.5 then 'S'
+            when wawa.az >= 202.5 and wawa.az < 247.5 then 'SW'
+            when wawa.az >= 247.5 and wawa.az < 292.5 then 'W'
+            when wawa.az >= 292.5 and wawa.az < 337.5 then 'NW'
+            else 'N'
+        end,
+        ' from the nearest Wawa.'
+    ) as stop_desc
 from septa.rail_stops as rail
 cross join lateral (
-    select 
-        wawa.geog, 
-        wawa.geog <-> rail.geog as distance, 
+    select
+        wawa.geog,
+        wawa.geog
+    <-> rail.geog as distance,
         degrees(st_azimuth(wawa.geog, rail.geog)) as az
     from wawa.locations as wawa
     order by distance
