@@ -36,12 +36,12 @@ find the **two** routes with the longest trips.
 
 select
     trips.route_id as route_short_name,
-    trips.trip_headsign as trip_headsign,
+    trips.trip_headsign,
     shapes.shape_geom as shape_geog,
     round(st_length(shapes.shape_geom))::numeric as shape_length
 from septa.bus_trips as trips
 inner join septa.shape_geoms as shapes
     on trips.shape_id like shapes.shape_id
-group by route_short_name, trip_headsign, shape_geog
+group by route_short_name, trips.trip_headsign, shape_geog
 order by shape_length desc
 limit 2;

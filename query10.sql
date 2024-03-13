@@ -35,17 +35,17 @@ select
     rail.stop_lon,
     rail.stop_lat,
     concat(
-        round(st_distance(wawa.geog, rail.geog))::text,
+        round(st_distance(ww.wg, rail.geog))::text,
         ' meters ',
         case
-            when wawa.az >= 0 and wawa.az < 22.5 then 'N'
-            when wawa.az >= 22.5 and wawa.az < 67.5 then 'NE'
-            when wawa.az >= 67.5 and wawa.az < 112.5 then 'E'
-            when wawa.az >= 112.5 and wawa.az < 157.5 then 'SE'
-            when wawa.az >= 157.5 and wawa.az < 202.5 then 'S'
-            when wawa.az >= 202.5 and wawa.az < 247.5 then 'SW'
-            when wawa.az >= 247.5 and wawa.az < 292.5 then 'W'
-            when wawa.az >= 292.5 and wawa.az < 337.5 then 'NW'
+            when ww.az >= 0 and ww.az < 22.5 then 'N'
+            when ww.az >= 22.5 and ww.az < 67.5 then 'NE'
+            when ww.az >= 67.5 and ww.az < 112.5 then 'E'
+            when ww.az >= 112.5 and ww.az < 157.5 then 'SE'
+            when ww.az >= 157.5 and ww.az < 202.5 then 'S'
+            when ww.az >= 202.5 and ww.az < 247.5 then 'SW'
+            when ww.az >= 247.5 and ww.az < 292.5 then 'W'
+            when ww.az >= 292.5 and ww.az < 337.5 then 'NW'
             else 'N'
         end,
         ' from the nearest Wawa.'
@@ -53,11 +53,11 @@ select
 from septa.rail_stops as rail
 cross join lateral (
     select
-        wawa.geog,
-        wawa.geog
-    <-> rail.geog as distance,
-        degrees(st_azimuth(wawa.geog, rail.geog)) as az
-    from wawa.locations as wawa
-    order by distance
+        ww.geog as wg,
+        ww.geog
+    <-> rail.geog as distance, -- noqa
+        degrees(st_azimuth(ww.geog, rail.geog)) as az
+    from wawa.locations as ww
+    order by distance -- noqa
     limit 1
-) wawa;
+) as ww;
