@@ -36,7 +36,7 @@ SELECT
 FROM septa_bus_stop_surrounding_population AS pop
 INNER JOIN septa.bus_stops AS stops USING (stop_id)
 WHERE pop.estimated_pop_800m > 500
-ORDER BY pop.estimated_pop_800m
+ORDER BY pop.estimated_pop_800m, stops.geog
 LIMIT 8
 
 

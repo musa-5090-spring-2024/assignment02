@@ -11,7 +11,7 @@ FROM phl.pwd_parcels
 CROSS JOIN LATERAL (
     SELECT
         *,
-        ROUND(cast(pwd_parcels.geog <-> stops.geog AS NUMERIC), 2) AS distance
+        ROUND(cast(ST_DISTANCE(pwd_parcels.geog, stops.geog) AS NUMERIC), 2) AS distance
     FROM septa.bus_stops AS stops
     ORDER BY pwd_parcels.geog <-> stops.geog
     LIMIT 1

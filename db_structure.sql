@@ -66,3 +66,8 @@ set geog = st_makepoint(stop_lon, stop_lat)::geography;
 create index if not exists septa_rail_stops__geog__idx
 on septa.bus_stops using gist
 (geog);
+
+-- has index example
+create index if not exists septa_bus_trip_route_id__hash__idx
+on septa.bus_trips using hash
+(route_id);
