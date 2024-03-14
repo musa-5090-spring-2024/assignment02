@@ -204,7 +204,17 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description:To assess the accessibility of neighborhoods for wheelchair users based on the availability and density of wheelchair-accessible bus stops, I developed a comprehensive metric. This metric is designed to provide insights into the public transportation accessibility for individuals using wheelchairs, focusing on two critical aspects:
+
+Percentage of Wheelchair-Accessible Stops (PWAS): This measures the proportion of bus stops within each neighborhood that are accessible to wheelchair users, indicated by a wheelchair_boarding value of 1. It's a direct measure of how inclusive the public transportation infrastructure is within a neighborhood. A higher percentage indicates a more accessible environment for individuals who rely on wheelchairs.
+
+Density of Accessible Stops (DAS): This factor accounts for the number of wheelchair-accessible bus stops per square kilometer within a neighborhood. It addresses the ease with which wheelchair users can access public transportation from different locations within a neighborhood. Higher density means shorter potential travel distances to reach an accessible stop, enhancing mobility and independence for wheelchair users.
+
+Derivation of the Accessibility Metric
+The accessibility metric was conceived by combining these two factors, reflecting both the quality (PWAS) and spatial distribution (DAS) of accessible transportation options. The formula used was:
+
+Accessibility Score = 0.7×PWAS+0.3×DAS
+This weighting was chosen to prioritize the availability of wheelchair-accessible stops slightly more than their density because even if stops are densely packed, a lack of wheelchair accessibility would significantly impair the mobility of wheelchair users. Nonetheless, the density factor is also crucial as it enhances the practicality and convenience of the transportation network for these individuals.**
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
@@ -256,3 +266,6 @@ There are several datasets that are prescribed for you to use in this part. Belo
    As an example, your `stop_desc` for a station stop may be something like "37 meters NE of 1234 Market St" (that's only an example, feel free to be creative, silly, descriptive, etc.)
 
    >**Tip when experimenting:** Use subqueries to limit your query to just a few rows to keep query times faster. Once your query is giving you answers you want, scale it up. E.g., instead of `FROM tablename`, use `FROM (SELECT * FROM tablename limit 10) as t`.
+
+   new dataset:city-landmarks
+   url: http://data-phl.opendata.arcgis.com/datasets/5146960d4d014f2396cb82f31cd82dfe_0.geojson
