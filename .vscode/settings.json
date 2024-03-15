@@ -1,0 +1,15 @@
+{
+    "sqlfluff.excludeRules": [
+        "CP03",
+        "ST07",
+        "ST06",
+        "RF02",
+        "LT05",
+        "AM05",
+        "LT02",
+        "AL01",
+        "LT09",
+        "LT12",
+        "ST03"
+    ]
+}
