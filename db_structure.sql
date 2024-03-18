@@ -37,7 +37,27 @@ add column if not exists geog geography;
 update septa.bus_stops
 set geog = st_makepoint(stop_lon, stop_lat)::geography;
 
--- Create an index on the geog column.
+-- Add a column to the septa.bus_stops table to store the geometry of each stop.
 create index if not exists septa_bus_stops__geog__idx
 on septa.bus_stops using gist
 (geog);
+
+
+-- Add a column to the septa.bus_shapes table to store the geometry of each stop.
+alter table septa.bus_shapes
+add column if not exists geog geography;
+
+update septa.bus_shapes
+set geog = st_makepoint(shape_pt_lon, shape_pt_lat)::geography;
+
+create index if not exists septa_bus_shapes__geog__idx
+on septa.bus_shapes using gist
+(geog);
+
+-- Add index for parcels
+create index if not exists phl_pwd_parcels_geog__idx
+on phl.pwd_parcels using gist
+(geog);
+
+update census.population_2020
+set geoid = replace(geoid, '1500000US', '');

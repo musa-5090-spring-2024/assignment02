@@ -204,7 +204,12 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description:
+    
+    The metric is defined by (number of accessible stops / size of the neighborhood).
+    Smaller number indicates lower accessibility while higher number reflects better accessibility.
+    
+    **
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
