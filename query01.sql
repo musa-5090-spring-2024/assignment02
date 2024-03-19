@@ -1,7 +1,14 @@
 /*
-  Which bus stop has the largest population within 800 meters? As a rough
+  Which eight bus stop have the largest population within 800 meters? As a rough
   estimation, consider any block group that intersects the buffer as being part
   of the 800 meter buffer.
+*/
+
+/* ALTER TABLE septa.bus_stops
+ADD COLUMN geog geography(Point, 4326);
+
+UPDATE septa.bus_stops
+SET geog = ST_SetSRID(ST_MakePoint(stop_lon, stop_lat), 4326);
 */
 
 with
