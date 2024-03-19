@@ -3,6 +3,7 @@ create schema if not exists phl;
 create schema if not exists azavea;
 create schema if not exists census;
 
+-- Create tables for bus stops
 drop table if exists septa.bus_stops;
 create table septa.bus_stops (
     stop_id TEXT,
@@ -15,8 +16,13 @@ create table septa.bus_stops (
     wheelchair_boarding INTEGER
 );
 
-drop table if exists septa.bus_routes;
+copy septa.bus_stops
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/gtfs_public/google_bus/stops.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
+
+-- Create tables for bus routes
+drop table if exists septa.bus_routes;
 create table septa.bus_routes (
     route_id TEXT,
     route_short_name TEXT,
@@ -27,6 +33,12 @@ create table septa.bus_routes (
     route_url TEXT
 );
 
+copy septa.bus_routes
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/gtfs_public/google_bus/routes.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for bus trips
 drop table if exists septa.bus_trips;
 create table septa.bus_trips (
     route_id TEXT,
@@ -38,6 +50,12 @@ create table septa.bus_trips (
     shape_id TEXT
 );
 
+copy septa.bus_trips
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/gtfs_public/google_bus/trips.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for bus shapes
 drop table if exists septa.bus_shapes;
 create table septa.bus_shapes (
     shape_id TEXT,
@@ -46,6 +64,12 @@ create table septa.bus_shapes (
     shape_pt_sequence INTEGER
 );
 
+copy septa.bus_shapes
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/gtfs_public/google_bus/shapes.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for rail stops
 drop table if exists septa.rail_stops;
 create table septa.rail_stops (
     stop_id TEXT,
@@ -57,6 +81,12 @@ create table septa.rail_stops (
     stop_url TEXT
 );
 
+copy septa.rail_stops
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/gtfs_public/google_rail/stops.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for census population 2020
 drop table if exists census.population_2020;
 create table census.population_2020 (
     geoid TEXT,
@@ -64,5 +94,8 @@ create table census.population_2020 (
     total INTEGER
 );
 
+copy census.population_2020
+from 'E:/UPenn/24Spring/MUSA509/Yinan_Li_assignment02/data/population_2020.csv'
+WITH (FORMAT csv, HEADER true);
 
 create extension if not exists postgis;

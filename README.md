@@ -149,6 +149,16 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
 1.  Which **eight** bus stop have the largest population within 800 meters? As a rough estimation, consider any block group that intersects the buffer as being part of the 800 meter buffer.
 
+**Results:**
+- (1) Lombard St & 18th St, Population = 57,936
+- (2) Rittenhouse Sq & 18th St, Population = 57,571
+- (3) Snyder Av & 9th St, Population = 57,412
+- (4) 19th St & Lombard St, Population = 57,019
+- (5) Lombard St & 19th St, Population = 57,019
+- (6) Locust St & 16th St, Population = 56,309
+- (7) 16th St & Locust St, Population = 56,309
+- (8) South St & 19th St, Population = 55,789
+
 2.  Which **eight** bus stops have the smallest population above 500 people _inside of Philadelphia_ within 800 meters of the stop (Philadelphia county block groups have a geoid prefix of `42101` -- that's `42` for the state of PA, and `101` for Philadelphia county)?
 
     **The queries to #1 & #2 should generate results with a single row, with the following structure:**
@@ -160,6 +170,16 @@ There are several datasets that are prescribed for you to use in this part. Belo
         geog geography -- The geography of the bus stop
     )
     ```
+
+**Results:**
+- (1) Delaware Av & Venango St, Population = 593
+- (2) Delaware Av & Tioga St, Population = 593
+- (3) Delaware Av & Castor Av, Population = 593
+- (4) Northwestern Av & Stenton Av, Population = 655
+- (5) Stenton Av & Northwestern Av, Population = 655
+- (6) Bethlehem Pk & Chesney Ln, Population = 655
+- (7) Bethlehem Pk & Chesney Ln, Population = 655
+- (8) Delaware Av & Wheatsheaf Ln, Population = 684
 
 3.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters, rounded to two decimals. Order by distance (largest on top).
 
@@ -198,6 +218,10 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
+**Results:**
+- (1) Route 130; Bucks County Community College; 46,505
+- (2) Route 128; Oxford Valley Mall; 43,659
+
 5.  Rate neighborhoods by their bus stop accessibility for wheelchairs. Use Azavea's neighborhood dataset from OpenDataPhilly along with an appropriate dataset from the Septa GTFS bus feed. Use the [GTFS documentation](https://gtfs.org/reference/static/) for help. Use some creativity in the metric you devise in rating neighborhoods.
 
     _NOTE: There is no automated test for this question, as there's no one right answer. With urban data analysis, this is frequently the case._
@@ -205,8 +229,17 @@ There are several datasets that are prescribed for you to use in this part. Belo
     Discuss your accessibility metric and how you arrived at it below:
 
     **Description:**
+    The percentage of the wheelchair accessible bus stop within the neighborhood. If the percentage of accessible bus stops is the same, then compare the number of accessible bus stops. First, spatial join the 'bus_stops' with 'neighborhood'. Then calculates the percentage of the accessible bus stops ('wheelchair_boarding' = 1). Finally, order the neighborhood by both its accessibility percentage and number of accessible bus stops.
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
+
+**Results:**
+- Neighborhood_name, num_bus_stops_accessible, num_bus_stops_inaccessible, accessibility_metrics
+- (1) Olney, 172, 0, 100%
+- (2) Bustleton, 158, 0, 100%
+- (3) Oxford Circle, 139, 0, 100%
+- (4) Rhawnhurst, 128, 0, 100%
+- (5) West Oak Lane, 122, 0, 100%
 
 7.  What are the _bottom five_ neighborhoods according to your accessibility metric?
 
@@ -219,6 +252,13 @@ There are several datasets that are prescribed for you to use in this part. Belo
       num_bus_stops_inaccessible integer
     )
     ```
+**Results:**
+- Neighborhood_name, num_bus_stops_accessible, num_bus_stops_inaccessible, accessibility_metrics
+- (1) Bartram Village, 0, 14, 0.0%
+- (2) Woodland Terrace, 2, 8, 20.0%
+- (3) Southwest Schuylkill, 23, 30, 43.4%
+- (4) Paschall, 32, 38, 45.7%
+- (5) Cedar Park, 20, 20, 50.0%
 
 8.  With a query, find out how many census block groups Penn's main campus fully contains. Discuss which dataset you chose for defining Penn's campus.
 
@@ -230,6 +270,10 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```
 
     **Discussion:**
+    I choose the neighborhood dataset under 'azavea' schema where 'name'='UNIVERSITY_CITY' to represent UPenn's campus.
+
+    **Answer:**
+    There are 11 census block groups are fully contained within Penn's campus.
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
@@ -239,6 +283,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
         geo_id text
     )
     ```
+    **Answer:** geo_id = '421010369022'
 
 10. You're tasked with giving more contextual information to rail stops to fill the `stop_desc` field in a GTFS feed. Using any of the data sets above, PostGIS functions (e.g., `ST_Distance`, `ST_Azimuth`, etc.), and PostgreSQL string functions, build a description (alias as `stop_desc`) for each stop. Feel free to supplement with other datasets (must provide link to data used so it's reproducible), and other methods of describing the relationships. SQL's `CASE` statements may be helpful for some operations.
 

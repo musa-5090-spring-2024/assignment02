@@ -1,0 +1,6 @@
+neighborhood_name,num_bus_stops_accessible,num_bus_stops_inaccessible,accessibility_metric
+Bartram Village,0,14,0.0
+Woodland Terrace,2,8,20.0
+Southwest Schuylkill,23,30,43.4
+Paschall,32,38,45.7
+Cedar Park,20,20,50.0
