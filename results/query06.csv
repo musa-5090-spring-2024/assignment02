@@ -1,0 +1,6 @@
+neighborhood_name,num_bus_stops_accessible,num_bus_stops_inaccessible,accessibility_metric
+Olney,172,0,100.0
+Bustleton,158,0,100.0
+Oxford Circle,139,0,100.0
+Rhawnhurst,128,0,100.0
+West Oak Lane,122,0,100.0
