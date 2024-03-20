@@ -28,12 +28,12 @@ shape_trip AS (
 )
 
 SELECT
-    final_frame.route_short_name AS route_short_name,
-    previous.trip_headsign AS trip_headsign,
-    previous.shape_geog AS shape_geog,
+    final_frame.route_short_name,
+    previous.trip_headsign,
+    previous.shape_geog,
     ROUND(ST_LENGTH(previous.shape_geog, TRUE)::NUMERIC) AS shape_length
 FROM shape_trip AS previous
 LEFT JOIN septa.bus_routes AS final_frame USING (route_id)
-GROUP BY route_short_name, trip_headsign, shape_geog, shape_length
+GROUP BY final_frame.route_short_name, previous.trip_headsign, previous.shape_geog, shape_length
 ORDER BY shape_length DESC
 LIMIT 2
