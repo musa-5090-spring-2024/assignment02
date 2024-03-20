@@ -204,7 +204,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description:** USe the total number of wheelchair boadring of all bus stops in each neighborhood
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
