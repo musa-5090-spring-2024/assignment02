@@ -205,6 +205,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     Discuss your accessibility metric and how you arrived at it below:
 
     **Description:**
+    The dataset I will use is the bus stops with the attributes of stop_id, stop_name, geog, parent_station and wheelchair_boarding. First of all, we assigned the neighborhood to each bus stop. Based on the description from GTFS Documentation, bus stops with boarding value 2 do not have accessible path, we will consider them as inaccessible. Bus stops with boarding value 1 is fully accessible, and for bus stops with boarding value 0, the accessibility is inherited with its parent stops. Therefore, we joined the parents' accessibility information with the parent's station ID. The overall metric is normalized by the area of the neighborhood because it represents the density of accessible bus stops and distance to an accessible stop is important for people with disabilities. Neighborhoods with more accessible stops in one square mile have a high metric value, while those with fewer accessible stops have a low metric value.
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
@@ -230,7 +231,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```
 
     **Discussion:**
-
+    I used the owner names in the pwd parcels dataset to define Penn's campus. After examine the parcels in the campus area, the owner names share some common features that contain characters like "University of Pennsylvania", "Trustees" or their abbreviations. Since the primary selected results show that there are some parcels not belong to University of Pennsylvania, I add another query condition for owner2 so that the result is more accurate.
+    
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
     **Structure (should be a single value):**
