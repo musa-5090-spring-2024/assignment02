@@ -4,31 +4,47 @@
   of the 800 meter buffer.
 */
 
-with
+DROP TABLE IF EXISTS blockgroups_2020;
+ 
+-- Create postGIS extension
+CREATE EXTENSION IF NOT EXISTS postgis;
 
-septa_bus_stop_blockgroups as (
-    select
-        stops.stop_id,
-        '1500000US' || bg.geoid as geoid
-    from septa.bus_stops as stops
-    inner join census.blockgroups_2020 as bg
-        on st_dwithin(stops.geog, bg.geog, 800)
-),
+-- Create a view with buffers around bus stops
+CREATE OR REPLACE VIEW septa.bus_stop_buffers AS
+SELECT
+    bs.stop_id AS stop_id,
+    public.st_buffer(public.st_makepoint(bs.stop_lon::numeric, bs.stop_lat::numeric)::public.geography, 800) 
+        AS buffer_geom
+FROM
+    septa.bus_stops bs;
 
-septa_bus_stop_surrounding_population as (
-    select
-        stops.stop_id,
-        sum(pop.total) as estimated_pop_800m
-    from septa_bus_stop_blockgroups as stops
-    inner join census.population_2020 as pop using (geoid)
-    group by stops.stop_id
-)
+-- Join census data to block groups to get spatial data 
 
-select
-    stops.stop_name,
-    pop.estimated_pop_800m,
-    stops.geog
-from septa_bus_stop_surrounding_population as pop
-inner join septa.bus_stops as stops using (stop_id)
-order by pop.estimated_pop_800m desc
-limit 8
+
+-- Create a view with population within each buffer zone
+CREATE OR REPLACE VIEW census.population_within_buffers AS
+SELECT
+    bsb.stop_id,
+    SUM(p.total) AS total_population 
+FROM
+    septa.bus_stop_buffers bsb
+JOIN
+    census.population_2020 p
+ON
+    public.st_intersects(bsb.buffer_geom::public.geometry, p.geoname)
+GROUP BY
+    bsb.stop_id;
+
+-- Find the bus stop with the largest population within 800 meters
+SELECT
+    bs.*,
+    pb.total_population
+FROM
+    public.bus_stops bs
+JOIN
+    population_within_buffers pb
+ON
+    bs.id = pb.bus_stop_id
+ORDER BY
+    pb.total_population DESC
+LIMIT 1;
