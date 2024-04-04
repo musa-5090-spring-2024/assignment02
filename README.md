@@ -35,6 +35,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
             wheelchair_boarding INTEGER
         );
         ```
+
+
 *   `septa.bus_routes` ([SEPTA GTFS](https://github.com/septadev/GTFS/releases))
     *   In the tests, the initial table will have the following structure:
         ```sql
@@ -206,9 +208,17 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     **Description:**
 
+    My query calculates the proportion of accessible stops and multiplies that by the total number of stops, then normalizes that metric by the area of each neighborhood.
+
+    First, the query joins azavea.neighborhoods with septa.bus_stops to find bus stops within each neighborhood. Next, the query counts the number of stops with wheelchair_boarding = 1 within each neighborhood, based on the documentation. The query then calculates the percentage of bus stops that are wheelchair accessible within each neighborhood by dividing the count of accessible stops by the total count of stops in the neighborhood to calculate proportion of accessible stops and then multiplying by the number of stops. The final step is to area-normalize this value by dividing it by the area of each neighborhood.
+
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
+Overbrook, Olney, Somerton, Bustleton, and Oxford Circle
+
 7.  What are the _bottom five_ neighborhoods according to your accessibility metric?
+
+Mechanicsville, Bartram Village, Crestmont Farms, West Torresdale, and Woodland Terrace
 
     **Both #6 and #7 should have the structure:**
     ```sql
@@ -230,6 +240,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
     ```
 
     **Discussion:**
+    I used the University City neighborhood as a proxy for Penn's campus, given the fact that it encompasses the locations of most of Penn's facilities as well as large portions of its on- and off-campus housing.
+    Based on this boundary, there are 11 census blocks fully within the Penn campus.
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
