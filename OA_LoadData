@@ -1,0 +1,109 @@
+DROP TABLE IF EXISTS septa.bus_stops;
+CREATE TABLE septa.bus_stops (
+    stop_id TEXT,
+    stop_name TEXT,
+    stop_lat DOUBLE PRECISION,
+    stop_lon DOUBLE PRECISION,
+    location_type TEXT,
+    parent_station TEXT,
+    zone_id TEXT,
+    wheelchair_boarding INTEGER
+);
+
+ALTER TABLE septa.bus_stops DROP COLUMN IF EXISTS geog;
+
+COPY septa.bus_stops
+FROM '/Users/oliveratwood/Downloads/gtfs_public/google_bus/stops.txt'
+WITH (FORMAT csv, HEADER true);
+
+ALTER TABLE septa.bus_stops DROP COLUMN IF EXISTS geog;
+ALTER TABLE septa.bus_stops ADD COLUMN geog GEOGRAPHY(POINT, 4326);
+
+UPDATE septa.bus_stops
+SET geog = ST_SetSRID(ST_MakePoint(stop_lon, stop_lat), 4326);
+
+
+DROP TABLE IF EXISTS septa.bus_routes;
+CREATE TABLE septa.bus_routes (
+            route_id TEXT,
+            route_short_name TEXT,
+            route_long_name TEXT,
+            route_type TEXT,
+            route_color TEXT,
+            route_text_color TEXT,
+            route_url TEXT
+        );
+
+COPY septa.bus_routes
+FROM '/Users/oliveratwood/Downloads/gtfs_public/google_bus/routes.txt'
+WITH (FORMAT csv, HEADER true);
+
+
+
+
+DROP TABLE IF EXISTS septa.bus_trips;
+CREATE TABLE septa.bus_trips (
+            route_id TEXT,
+            service_id TEXT,
+            trip_id TEXT,
+            trip_headsign TEXT,
+            block_id TEXT,
+            direction_id TEXT,
+            shape_id TEXT
+        );
+
+COPY septa.bus_trips
+FROM '/Users/oliveratwood/Downloads/gtfs_public/google_bus/trips.txt'
+WITH (FORMAT csv, HEADER true);
+
+
+
+
+DROP TABLE IF EXISTS septa.bus_shapes;
+CREATE TABLE septa.bus_shapes (
+            shape_id TEXT,
+            shape_pt_lat DOUBLE PRECISION,
+            shape_pt_lon DOUBLE PRECISION,
+            shape_pt_sequence INTEGER
+        );
+
+COPY septa.bus_shapes
+FROM '/Users/oliveratwood/Downloads/gtfs_public/google_bus/shapes.txt'
+WITH (FORMAT csv, HEADER true);
+
+
+
+DROP TABLE IF EXISTS septa.rail_stops;
+CREATE TABLE septa.rail_stops (
+            stop_id TEXT,
+            stop_name TEXT,
+            stop_desc TEXT,
+            stop_lat DOUBLE PRECISION,
+            stop_lon DOUBLE PRECISION,
+            zone_id TEXT,
+            stop_url TEXT
+        );
+
+COPY septa.rail_stops
+FROM '/Users/oliveratwood/Downloads/gtfs_public/google_rail/stops.txt'
+WITH (FORMAT csv, HEADER true);
+
+CREATE SCHEMA IF NOT EXISTS census;
+DROP TABLE IF EXISTS census.blockgroups_2020;
+CREATE TABLE census.blockgroups_2020 (
+            geoid TEXT,
+            geoname TEXT,
+            total INTEGER
+        );
+        
+-- edit table so columns are matching the those of census.population_2020 prior to loading data from it
+COPY census.blockgroups_2020
+FROM '/Users/oliveratwood/Downloads/DECENNIALPL2020.P1-Data copy.csv'
+WITH (FORMAT csv, HEADER true);
+
+ALTER TABLE census.blockgroups_2020
+ADD COLUMN IF NOT EXISTS geog GEOGRAPHY(POLYGON, 4326);
+
+
+
+CREATE SCHEMA IF NOT EXISTS azavea
