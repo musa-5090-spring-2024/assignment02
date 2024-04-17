@@ -1,3 +1,4 @@
+create extension if not exists postgis;
 create schema if not exists septa;
 create schema if not exists phl;
 create schema if not exists azavea;
@@ -16,9 +17,8 @@ create table septa.bus_stops (
     wheelchair_boarding INTEGER
 );
 COPY septa.bus_stops
-FROM 'D:/Spring_2024/Cloud/Assigment02/data/gtfs_public/google_bus/stops.txt'
-WITH (FORMAT csv, HEADER true, DELIMITER ',');
-
+FROM 'D:\Spring_2024\Cloud\assignment02\Assigment02\data\gtfs_public\google_bus\stops.txt'
+WITH (format csv, header true, delimiter ',');
 
 -- Create tables for bus routes
 drop table if exists septa.bus_routes;
