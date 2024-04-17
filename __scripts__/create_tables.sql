@@ -15,7 +15,6 @@ create table septa.bus_stops (
     zone_id TEXT,
     wheelchair_boarding INTEGER
 );
-
 COPY septa.bus_stops
 FROM 'D:/Spring_2024/Cloud/Assigment02/data/gtfs_public/google_bus/stops.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
