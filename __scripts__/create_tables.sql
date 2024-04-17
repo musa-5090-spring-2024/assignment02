@@ -16,8 +16,8 @@ create table septa.bus_stops (
     wheelchair_boarding INTEGER
 );
 
-copy septa.bus_stops
-from 'D:/Spring_2024/Cloud/assignment02/data/gtfs_public/google_bus/stops.txt'
+COPY septa.bus_stops
+FROM 'D:\Spring_2024\Cloud\Assigment02\data\gtfs_public\google_bus\stops.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
 
@@ -34,7 +34,7 @@ create table septa.bus_routes (
 );
 
 copy septa.bus_routes
-from 'D:/Spring_2024/Cloud/assignment02/data/gtfs_public/google_bus/routes.txt'
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_bus/routes.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
 
@@ -65,7 +65,7 @@ create table septa.bus_shapes (
 );
 
 copy septa.bus_shapes
-from 'D:/Spring_2024/Cloud/assignment02/data/gtfs_public/google_bus/shapes.txt'
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_bus/shapes.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
 
@@ -82,7 +82,7 @@ create table septa.rail_stops (
 );
 
 copy septa.rail_stops
-from 'D:/Spring_2024/Cloud/assignment02/data/gtfs_public/google_rail/stops.txt'
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_rail/stops.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
 
@@ -95,7 +95,7 @@ create table census.population_2020 (
 );
 
 copy census.population_2020
-from 'D:/Spring_2024/Cloud/assignment02/data/population_2020.csv'
+from 'D:\Spring_2024\Cloud\Assigment02\data\DECENNIALPL2020.P1_2024-04-17T001159\DECENNIALPL2020.P1-Data.csv'
 WITH (FORMAT csv, HEADER true);
 
 create extension if not exists postgis;
