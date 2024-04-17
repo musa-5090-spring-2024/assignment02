@@ -17,7 +17,7 @@ create table septa.bus_stops (
 );
 
 COPY septa.bus_stops
-FROM 'D:\Spring_2024\Cloud\Assigment02\data\gtfs_public\google_bus\stops.txt'
+FROM 'D:/Spring_2024/Cloud/Assigment02/data/gtfs_public/google_bus/stops.txt'
 WITH (FORMAT csv, HEADER true, DELIMITER ',');
 
 
@@ -95,7 +95,7 @@ create table census.population_2020 (
 );
 
 copy census.population_2020
-from 'D:\Spring_2024\Cloud\Assigment02\data\DECENNIALPL2020.P1_2024-04-17T001159\DECENNIALPL2020.P1-Data.csv'
+from 'D:/Spring_2024/Cloud/Assigment02/data/DECENNIALPL2020.P1_2024-04-17T001159/DECENNIALPL2020.P1-Data.csv'
 WITH (FORMAT csv, HEADER true);
 
 create extension if not exists postgis;
