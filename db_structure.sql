@@ -41,3 +41,16 @@ set geog = st_makepoint(stop_lon, stop_lat)::geography;
 create index if not exists septa_bus_stops__geog__idx
 on septa.bus_stops using gist
 (geog);
+
+-- Indexs created for assignemnt 2
+-- Index for census block groups geography
+CREATE INDEX IF NOT EXISTS idx_blockgroups_geog ON census.blockgroups_2020 USING GIST (geog);
+-- Index for SEPTA bus stops geography
+CREATE INDEX IF NOT EXISTS idx_bus_stops_geog ON septa.bus_stops USING GIST (geog);
+-- Index for SEPTA rail stops geography
+CREATE INDEX IF NOT EXISTS idx_rail_stops_geog ON septa.rail_stops USING GIST (geog);
+-- Index for PWD parcels geography
+CREATE INDEX IF NOT EXISTS idx_pwd_parcels_geog ON phl.pwd_parcels USING GIST (geog);
+-- Index for azavea.neighborhoods geography
+CREATE INDEX IF NOT EXISTS idx_neighborhoods_geog ON azavea.neighborhoods USING GIST (geog);
+
