@@ -1,8 +1,10 @@
+create extension if not exists postgis;
 create schema if not exists septa;
 create schema if not exists phl;
 create schema if not exists azavea;
 create schema if not exists census;
 
+-- Create tables for bus stops
 drop table if exists septa.bus_stops;
 create table septa.bus_stops (
     stop_id TEXT,
@@ -14,9 +16,12 @@ create table septa.bus_stops (
     zone_id TEXT,
     wheelchair_boarding INTEGER
 );
+COPY septa.bus_stops
+FROM 'D:\Spring_2024\Cloud\assignment02\Assigment02\data\gtfs_public\google_bus\stops.txt'
+WITH (format csv, header true, delimiter ',');
 
+-- Create tables for bus routes
 drop table if exists septa.bus_routes;
-
 create table septa.bus_routes (
     route_id TEXT,
     route_short_name TEXT,
@@ -27,6 +32,12 @@ create table septa.bus_routes (
     route_url TEXT
 );
 
+copy septa.bus_routes
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_bus/routes.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for bus trips
 drop table if exists septa.bus_trips;
 create table septa.bus_trips (
     route_id TEXT,
@@ -38,6 +49,12 @@ create table septa.bus_trips (
     shape_id TEXT
 );
 
+copy septa.bus_trips
+from 'D:/Spring_2024/Cloud/assignment02/data/gtfs_public/google_bus/trips.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for bus shapes
 drop table if exists septa.bus_shapes;
 create table septa.bus_shapes (
     shape_id TEXT,
@@ -46,6 +63,12 @@ create table septa.bus_shapes (
     shape_pt_sequence INTEGER
 );
 
+copy septa.bus_shapes
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_bus/shapes.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for rail stops
 drop table if exists septa.rail_stops;
 create table septa.rail_stops (
     stop_id TEXT,
@@ -57,6 +80,12 @@ create table septa.rail_stops (
     stop_url TEXT
 );
 
+copy septa.rail_stops
+from 'D:/Spring_2024/Cloud/Assignment02/data/gtfs_public/google_rail/stops.txt'
+WITH (FORMAT csv, HEADER true, DELIMITER ',');
+
+
+-- Create tables for census population 2020
 drop table if exists census.population_2020;
 create table census.population_2020 (
     geoid TEXT,
@@ -64,5 +93,8 @@ create table census.population_2020 (
     total INTEGER
 );
 
+copy census.population_2020
+from 'D:/Spring_2024/Cloud/Assigment02/data/DECENNIALPL2020.P1_2024-04-17T001159/DECENNIALPL2020.P1-Data.csv'
+WITH (FORMAT csv, HEADER true);
 
 create extension if not exists postgis;
