@@ -6,4 +6,4 @@ FULL JOIN census.blockgroups_2020 AS bg
     ON ST_COVERS(bg.geog, pwd.geog)
 WHERE
     pwd.name = 'UNIVERSITY_CITY'
-    AND pwd.wner1 = 'TRUSTEES OF THE UNIVERSIT'
+    AND pwd.owner1 = 'TRUSTEES OF THE UNIVERSIT'
