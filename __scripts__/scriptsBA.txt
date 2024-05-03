@@ -1,0 +1,24 @@
+/Users/brookeacosta/Desktop/musa 509/Homework/assignment02
+
+ogr2ogr \
+    -f "PostgreSQL" \
+    PG:"host=localhost port=5432 dbname=assignment02 user=postgres password=postgres" \
+    -nln phl.pwd_parcels \
+    -nlt MULTIPOLYGON \
+    -lco GEOMETRY_NAME=geog \
+    -lco GEOM_TYPE=GEOGRAPHY \
+    -overwrite \
+    "/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/_data_/phl_pwd_parcels/PWD_PARCELS.shp"
+
+Neighborhoods_Philadelphia.geojson
+
+ogr2ogr \
+    -f "PostgreSQL" \
+    PG:"host=localhost port=5432 dbname=assignment02 user=postgres password=postgres" \
+    -nln phl.universities \
+    -nlt MULTIPOLYGON \
+    -t_srs EPSG:4326 \
+    -lco GEOMETRY_NAME=geog \
+    -lco GEOM_TYPE=GEOGRAPHY \
+    -overwrite \
+    "/Users/brookeacosta/Desktop/musa 509/Homework/assignment02/_data_/Universities_Colleges.geojson"

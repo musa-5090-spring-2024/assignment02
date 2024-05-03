@@ -1,0 +1,14 @@
+## #!/bin/env bash
+
+set -e
+set -x
+
+POSTGRES_HOST=${POSTGRES_HOST:-localhost}
+POSTGRES_PORT=${POSTGRES_PORT:-5432}
+POSTGRES_NAME=${POSTGRES_NAME:-assignment02}
+POSTGRES_USER=${POSTGRES_USER:-postgres}
+POSTGRES_PASS=${POSTGRES_PASS:-postgres}
+PYTHON_COMMAND=${PYTHON_COMMAND:-python3}
+
+SCRIPTDIR=$(readlink -f $(dirname $0))
+DATADIR=$(readlink -f $(dirname $0)/__data__)
