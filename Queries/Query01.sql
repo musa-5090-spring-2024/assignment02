@@ -1,14 +1,19 @@
-/* Which eight bus stops have the smallest population above 500 people inside of Philadelphia within 
-800 meters of the stop (Philadelphia county block groups have a geoid prefix of 42101 
--- that's 42 for the state of PA, and 101 for Philadelphia county)?
+ALTER DATABASE assignment02 SET search_path = 'public';
 
-The queries to #1 & #2 should generate results with a single row, with the following structure:
+ALTER TABLE septa.bus_stops ADD COLUMN geog geography(Point, 4326);
+UPDATE septa.bus_stops SET geog = ST_SetSRID(ST_MakePoint(stop_lon::FLOAT, stop_lat::FLOAT), 4326);
 
-(
-    stop_name text, -- The name of the station
-    estimated_pop_800m integer, -- The population within 800 meters
-    geog geography -- The geography of the bus stop
-) */
+-- Update the new geography column with data from the existing geometry column
+UPDATE census.blockgroups_2020 SET geography_column = ST_Transform(geog, 4326)::geography;
+
+SHOW search_path;
+SET search_path='public';  
+
+/*
+  Which bus stop has the largest population within 800 meters? As a rough
+  estimation, consider any block group that intersects the buffer as being part
+  of the 800 meter buffer.
+*/
 
 SELECT * FROM septa.bus_stops;
 
@@ -32,11 +37,10 @@ septa_bus_stop_surrounding_population AS (
     GROUP BY stops.stop_id
 )
 SELECT
-    stops.stop_name,
+    stops.stop_id,
     pop.estimated_pop_800m,
     stops.geog
 FROM septa_bus_stop_surrounding_population AS pop
 INNER JOIN septa.bus_stops AS stops USING (stop_id)
-WHERE pop.estimated_pop_800m > 500 
-ORDER BY pop.estimated_pop_800m ASC
+ORDER BY pop.estimated_pop_800m DESC
 LIMIT 8;
