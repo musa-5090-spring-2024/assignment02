@@ -132,7 +132,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
         _(remember to replace the variables with the appropriate values, and replace the backslashes (`\`) with backticks (`` ` ``) if you're using PowerShell)_
 
         **Take note that Census TIGER/Line files use an EPSG:4269 coordinate reference system. To deal with this above I'm using the [`t_srs` option](https://gdal.org/programs/ogr2ogr.html#cmdoption-ogr2ogr-t_srs) which will reproject the data into whatever CRS you specify (in this case, EPSG:4326).** Check out [this stack exchange answer](https://gis.stackexchange.com/a/170854/8583) for the difference.
-  *   `census.population_2020` ([Census Explorer](https://data.census.gov/table?t=Populations+and+People&g=0500000US42101$1500000&y=2020&d=DEC+Redistricting+Data+(PL+94-171)&tid=DECENNIALPL2020.P1))  
+  *   `census.population_2020` ([Census Explorer](https://data.census.gov/table?t=Populations+and+People&g=040XX00US42$1500000&y=2020&d=DEC+Redistricting+Data+(PL+94-171)&tid=DECENNIALPL2020.P1))  
       * In the tests, the initial table will have the following structure:
         ```sql
         CREATE TABLE census.population_2020 (
@@ -161,7 +161,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-3.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters. Order by distance (largest on top).
+3.  Using the Philadelphia Water Department Stormwater Billing Parcels dataset, pair each parcel with its closest bus stop. The final result should give the parcel address, bus stop name, and distance apart in meters, rounded to two decimals. Order by distance (largest on top).
 
     _Your query should run in under two minutes._
 
@@ -172,7 +172,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     (
         parcel_address text,  -- The address of the parcel
         stop_name text,  -- The name of the bus stop
-        distance double precision  -- The distance apart in meters
+        distance numeric  -- The distance apart in meters, rounded to two decimals
     )
     ```
 
@@ -194,7 +194,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
         route_short_name text,  -- The short name of the route
         trip_headsign text,  -- Headsign of the trip
         shape_geog geography,  -- The shape of the trip
-        shape_length double precision  -- Length of the trip in meters
+        shape_length numeric  -- Length of the trip in meters, rounded to the nearest whole number
     )
     ```
 
