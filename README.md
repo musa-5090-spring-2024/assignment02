@@ -204,7 +204,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description:** This accessibility metric uses both the wheelchair boarding category in the bus stops table and the total number of PWD parcels in a neighborhood to create a normalized index of the percent of wheel chair accesible stops for the total number of parcels in a neighborhood. The idea for this accessibility metric is that neighborhoods are more accessible if they have a high proportion of accessible bus stops relative to the total amount of possible locations (i.e. parcels) in an area. While this metric would favor neighborhoods with fewer parcels, that supports the idea that those neighborhoods present a less accessible number of locations for people experiencing mobility issues.
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
@@ -229,7 +229,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-    **Discussion:**
+    **Discussion:** I used the PWD data set to define Penn's campus filtered to the University City neighborhoods data set because the PWD data set includes the owner of a parcel of land. By filtering out for a common owner name for Penn ("TRUSTEES OF THE UNIVERSIT"), I believe I can capture the relevant block groups in the neighborhood.
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
