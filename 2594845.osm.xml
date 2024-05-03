@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="CGImap 0.9.2 (2761706 spike-06.openstreetmap.org)" copyright="OpenStreetMap and contributors" attribution="http://www.openstreetmap.org/copyright" license="http://opendatacommons.org/licenses/odbl/1-0/">
+ <relation id="2594845" visible="true" version="17" changeset="148399959" timestamp="2024-03-08T20:15:36Z" user="pkoby" uid="999995">
+  <member type="way" ref="192543492" role="inner"/>
+  <member type="way" ref="190329533" role="outer"/>
+  <member type="way" ref="1036222960" role="outer"/>
+  <member type="way" ref="785510169" role="outer"/>
+  <member type="way" ref="283621821" role="outer"/>
+  <member type="way" ref="49991657" role="outer"/>
+  <member type="way" ref="1082907463" role="outer"/>
+  <member type="way" ref="12174913" role="outer"/>
+  <member type="way" ref="62634076" role="outer"/>
+  <member type="way" ref="12110894" role="outer"/>
+  <member type="way" ref="856813194" role="outer"/>
+  <member type="way" ref="859157955" role="outer"/>
+  <member type="way" ref="1222833887" role="outer"/>
+  <member type="way" ref="1222833888" role="outer"/>
+  <member type="way" ref="1222833885" role="outer"/>
+  <member type="way" ref="388533141" role="outer"/>
+  <member type="way" ref="1222833877" role="outer"/>
+  <member type="way" ref="1222879913" role="outer"/>
+  <member type="way" ref="264351493" role="outer"/>
+  <member type="way" ref="1222879915" role="outer"/>
+  <member type="way" ref="1222833876" role="outer"/>
+  <member type="way" ref="1199657269" role="outer"/>
+  <member type="way" ref="1222833873" role="outer"/>
+  <member type="way" ref="1222833870" role="outer"/>
+  <member type="way" ref="1222833872" role="outer"/>
+  <member type="way" ref="1222833871" role="outer"/>
+  <member type="way" ref="1222833881" role="outer"/>
+  <member type="way" ref="32119919" role="outer"/>
+  <member type="way" ref="1222833866" role="outer"/>
+  <member type="way" ref="1222833868" role="outer"/>
+  <member type="way" ref="386547299" role="outer"/>
+  <member type="way" ref="1222839584" role="outer"/>
+  <member type="way" ref="12166997" role="outer"/>
+  <member type="way" ref="1222839582" role="outer"/>
+  <member type="way" ref="1222839574" role="outer"/>
+  <member type="way" ref="284556051" role="outer"/>
+  <member type="way" ref="32118998" role="outer"/>
+  <member type="way" ref="1222839579" role="outer"/>
+  <member type="way" ref="1222839580" role="outer"/>
+  <member type="way" ref="484842172" role="outer"/>
+  <member type="way" ref="12134229" role="outer"/>
+  <member type="way" ref="49991660" role="outer"/>
+  <member type="way" ref="49991666" role="outer"/>
+  <member type="way" ref="484842173" role="outer"/>
+  <member type="way" ref="49991662" role="outer"/>
+  <member type="way" ref="28555309" role="outer"/>
+  <member type="way" ref="424801341" role="outer"/>
+  <member type="way" ref="283621822" role="outer"/>
+  <member type="way" ref="424801343" role="outer"/>
+  <member type="way" ref="424801344" role="outer"/>
+  <member type="way" ref="484842178" role="outer"/>
+  <member type="way" ref="859157953" role="outer"/>
+  <member type="way" ref="859157954" role="outer"/>
+  <member type="way" ref="50033007" role="outer"/>
+  <tag k="addr:city" v="Philadelphia"/>
+  <tag k="addr:postcode" v="19104"/>
+  <tag k="addr:state" v="PA"/>
+  <tag k="alt_name" v="UPenn"/>
+  <tag k="amenity" v="university"/>
+  <tag k="name" v="University of Pennsylvania"/>
+  <tag k="operator" v="Trustees of the University of Pennsylvania"/>
+  <tag k="type" v="multipolygon"/>
+  <tag k="wikidata" v="Q49117"/>
+ </relation>
+</osm>

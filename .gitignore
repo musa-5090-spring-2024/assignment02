@@ -1,3 +1,8 @@
 node_modules/
 __data__/
 .env
+.Rproj.user
+phl_pwd_parcels/
+phl_pwd_parcels/PWD_PARCELS.shp
+google_bus/stop_times.txt
+phl_pwd_parcels.zip
