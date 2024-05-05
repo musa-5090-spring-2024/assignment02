@@ -1,34 +1,34 @@
-/*
-  Which bus stop has the largest population within 800 meters? As a rough
-  estimation, consider any block group that intersects the buffer as being part
-  of the 800 meter buffer.
-*/
-
-with
-
-septa_bus_stop_blockgroups as (
-    select
+WITH septa_bus_stop_blockgroups AS (
+    SELECT
         stops.stop_id,
-        '1500000US' || bg.geoid as geoid
-    from septa.bus_stops as stops
-    inner join census.blockgroups_2020 as bg
-        on st_dwithin(stops.geog, bg.geog, 800)
+        '1500000US' || bg.geoid AS geoid
+    FROM
+        septa_bus_stops AS stops
+    INNER JOIN
+        census_blockgroups_2020 AS bg ON ST_DWithin(stops.geom, bg.geom, 800)
 ),
 
-septa_bus_stop_surrounding_population as (
-    select
+septa_bus_stop_surrounding_population AS (
+    SELECT
         stops.stop_id,
-        sum(pop.total) as estimated_pop_800m
-    from septa_bus_stop_blockgroups as stops
-    inner join census.population_2020 as pop using (geoid)
-    group by stops.stop_id
+        SUM(pop.total) AS estimated_pop_800m
+    FROM
+        septa_bus_stop_blockgroups AS stops
+    INNER JOIN
+        census_population_2020 AS pop ON stops.geoid = pop.geoid
+    GROUP BY
+        stops.stop_id
 )
 
-select
+SELECT
     stops.stop_name,
     pop.estimated_pop_800m,
-    stops.geog
-from septa_bus_stop_surrounding_population as pop
-inner join septa.bus_stops as stops using (stop_id)
-order by pop.estimated_pop_800m desc
-limit 8
+    stops.geom
+FROM
+    septa_bus_stop_surrounding_population AS pop
+INNER JOIN
+    septa_bus_stops AS stops ON pop.stop_id = stops.stop_id
+ORDER BY
+    pop.estimated_pop_800m DESC
+LIMIT 8;
+
