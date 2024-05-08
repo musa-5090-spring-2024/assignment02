@@ -204,7 +204,7 @@ There are several datasets that are prescribed for you to use in this part. Belo
 
     Discuss your accessibility metric and how you arrived at it below:
 
-    **Description:**
+    **Description:My metric is developed by measuring the density of accessible bus stops within each neighborhood. It counts the number of bus stops equipped for wheelchair boarding and divides this count by the neighborhood’s area in square kilometers. This calculation yields a metric reflecting the number of accessible bus stops per square kilometer, allowing neighborhoods to be ranked based on their transport accessibility. The top five neighborhoods identified by this metric offer the highest concentration of accessible bus stops per unit area, providing insight into which areas are best equipped to serve individuals with mobility challenges.**
 
 6.  What are the _top five_ neighborhoods according to your accessibility metric?
 
@@ -229,7 +229,8 @@ There are several datasets that are prescribed for you to use in this part. Belo
     )
     ```
 
-    **Discussion:**
+    **Discussion:I used the PWD parcels dataset to define Penn's campus by identifying properties associated with Penn (with identifying possible aliases) and filtering them by those within University City.**
+
 
 9. With a query involving PWD parcels and census block groups, find the `geo_id` of the block group that contains Meyerson Hall. `ST_MakePoint()` and functions like that are not allowed.
 
