@@ -25,10 +25,10 @@ septa_bus_stop_surrounding_population as (
 )
 
 select
-    stops.stop_name,
-    pop.estimated_pop_800m,
-    stops.geog
+    stops.stop_name::text,
+    pop.estimated_pop_800m::integer,
+    stops.geog::geography
 from septa_bus_stop_surrounding_population as pop
 inner join septa.bus_stops as stops using (stop_id)
-order by pop.estimated_pop_800m desc
+order by pop.estimated_pop_800m desc, geog desc
 limit 8
