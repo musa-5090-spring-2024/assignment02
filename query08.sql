@@ -5,4 +5,4 @@ WITH upenn AS (
 )
 SELECT COUNT(*)::integer AS count_block_groups
 FROM census.blockgroups_2020 bg
-JOIN upenn c ON ST_Covers(c.upenn_geog, bg.geog);
+JOIN upenn ON ST_Covers(upenn.upenn_geog, bg.geog);
